@@ -1,3 +1,5 @@
+package Scanner;
+
 public class Ident extends Base{
     private final String value;
     public Ident(String value) {

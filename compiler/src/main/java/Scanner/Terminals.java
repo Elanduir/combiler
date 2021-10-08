@@ -1,3 +1,5 @@
+package Scanner;
+
 public enum Terminals {
     WHILE("while"),
     ENDWHILE("endwhile"),

@@ -1,3 +1,5 @@
+package Scanner;
+
 public class Literal extends Base{
     private final int value;
     public Literal(int value) {

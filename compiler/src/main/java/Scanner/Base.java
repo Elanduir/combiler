@@ -1,3 +1,5 @@
+package Scanner;
+
 public class Base {
     public final Terminals terminal;
 
