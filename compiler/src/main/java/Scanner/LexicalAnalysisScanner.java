@@ -9,9 +9,9 @@ import java.util.List;
 
 public class LexicalAnalysisScanner {
 
-    private final List<String> tokenDelimiter = List.of(" ", "\n", "!", "*", "/", "%", "+", "-", ":", "!", "<", ">", "=");
+    private final List<String> tokenDelimiter = List.of(" ", "\n", "!", "*", "/", "%", "+", "-", ":", "!", "<", ">", "=", ";", "(", ")");
 
-    public List<Base> analyze(Path filePath){
+    public List<Base> analyze(Path filePath) throws LexicalAnalysisException {
         String[] characters = readFile(filePath);
         return generateTokens(characters);
     }
@@ -26,7 +26,7 @@ public class LexicalAnalysisScanner {
         return input.split("");
     }
 
-    private List<Base> generateTokens(String[] characters){
+    private List<Base> generateTokens(String[] characters) throws LexicalAnalysisException {
         StringBuilder sBuild  = new StringBuilder();
         List<Base> tokenList = new ArrayList<>();
         String toMatch;
@@ -43,6 +43,9 @@ public class LexicalAnalysisScanner {
             boolean nextDelimiter = tokenDelimiter.stream().anyMatch(nextChar::equals);
 
             boolean newToken = (currentDelimiter && !nextDelimiter) || (!currentDelimiter && nextDelimiter);
+
+            if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
+
             newToken = nextIndex == i || newToken;
 
             boolean isIdent = true;
@@ -69,14 +72,30 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Operators.PLUS.pattern)) tokenList.add(new AddOpr(Operators.PLUS));
                     if(toMatch.matches(Operators.MINUS.pattern)) tokenList.add(new AddOpr(Operators.MINUS));
 
-                    if(toMatch.equals(Terminals.WHILE.pattern)) tokenList.add(new Base(Terminals.WHILE));
-                    if(toMatch.equals(Terminals.ENDWHILE.pattern)) tokenList.add(new Base(Terminals.ENDWHILE));
-                    if(toMatch.equals(Terminals.DO.pattern)) tokenList.add(new Base(Terminals.DO));
-                    if(toMatch.equals(Terminals.BECOMES.pattern)) tokenList.add(new Base(Terminals.BECOMES));
+                    if(toMatch.matches(Terminals.WHILE.pattern)) tokenList.add(new Base(Terminals.WHILE));
+                    if(toMatch.matches(Terminals.ENDWHILE.pattern)) tokenList.add(new Base(Terminals.ENDWHILE));
+                    if(toMatch.matches(Terminals.DO.pattern)) tokenList.add(new Base(Terminals.DO));
+                    if(toMatch.matches(Terminals.BECOMES.pattern)) tokenList.add(new Base(Terminals.BECOMES));
+                    if(toMatch.matches(Terminals.LEFTRBRACKET.pattern)) tokenList.add(new Base(Terminals.LEFTRBRACKET));
+                    if(toMatch.matches(Terminals.RIGHTRBRACKET.pattern)) tokenList.add(new Base(Terminals.RIGHTRBRACKET));
+                    if(toMatch.matches(Terminals.COLON.pattern)) tokenList.add(new Base(Terminals.COLON));
+                    if(toMatch.matches(Terminals.SEMICOLON.pattern)) tokenList.add(new Base(Terminals.SEMICOLON));
+                    if(toMatch.matches(Terminals.PROGRAM.pattern)) tokenList.add(new Base(Terminals.PROGRAM));
+                    if(toMatch.matches(Terminals.ENDPROGRAM.pattern)) tokenList.add(new Base(Terminals.ENDPROGRAM));
+                    if(toMatch.matches(Terminals.GLOBAL.pattern)) tokenList.add(new Base(Terminals.GLOBAL));
+                    if(toMatch.matches(Terminals.FUNCTION.pattern)) tokenList.add(new Base(Terminals.FUNCTION));
+                    if(toMatch.matches(Terminals.DEBUGIN.pattern)) tokenList.add(new Base(Terminals.DEBUGIN));
+                    if(toMatch.matches(Terminals.DEBUGOUT.pattern)) tokenList.add(new Base(Terminals.DEBUGOUT));
 
                     endSize = tokenList.size();
                     isIdent = startSize == endSize;
-                    if(isIdent && toMatch.matches(Terminals.IDENT.pattern)) tokenList.add(new Ident(toMatch));
+                    if(isIdent && toMatch.matches(Terminals.IDENT.pattern)){
+                        tokenList.add(new Ident(toMatch));
+                    }else if(isIdent){
+                        throw new LexicalAnalysisException("Token \"" + toMatch + "\" is  not a valid input.");
+                    }
+
+
                 }
 
 

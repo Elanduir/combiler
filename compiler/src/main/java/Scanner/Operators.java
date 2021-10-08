@@ -1,18 +1,18 @@
 package Scanner;
 
 public enum Operators{
-    NOT("!"),
+    NOT("(!)"),
     TIMES("([*])"),
     DIV("([/])"),
     MOD("([%])"),
     PLUS("([+])"),
     MINUS("([-])"),
-    EQ("="),
-    NE("!="),
-    GT("([>])"),
-    LT("([<])"),
-    GE(">="),
-    LE("<="),
+    EQ("(=)"),
+    NE("(!=)"),
+    GT("(>)"),
+    LT("(<)"),
+    GE("(>=)"),
+    LE("(<=)"),
     CAND(""),
     COR("");
 
