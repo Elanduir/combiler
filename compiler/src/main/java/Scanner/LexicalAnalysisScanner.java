@@ -46,8 +46,10 @@ public class LexicalAnalysisScanner {
 
             boolean newToken = (currentDelimiter && !nextDelimiter) || (!currentDelimiter && nextDelimiter);
 
-            // Checks if left bracket is followed by right bracket and splits them -> Function initialization without parameter
+            // Checks for multiple brackets and splits them in multiple tokens
             if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
+            if(currentChar.matches(Terminals.RIGHTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
+            if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.LEFTRBRACKET.pattern)) newToken = true;
 
             newToken = nextIndex == i || newToken;
 
