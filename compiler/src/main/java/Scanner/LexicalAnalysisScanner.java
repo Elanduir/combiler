@@ -16,6 +16,7 @@ public class LexicalAnalysisScanner {
         return generateTokens(characters);
     }
 
+    // Reads the IML file into a String array
     private String[] readFile(Path filePath){
         String input = "empty";
         try {
@@ -26,6 +27,7 @@ public class LexicalAnalysisScanner {
         return input.split("");
     }
 
+    // Uses the tokenDelimiter list to generate the different elements and matches them with the corresponding token
     private List<Base> generateTokens(String[] characters) throws LexicalAnalysisException {
         StringBuilder sBuild  = new StringBuilder();
         List<Base> tokenList = new ArrayList<>();
@@ -44,18 +46,23 @@ public class LexicalAnalysisScanner {
 
             boolean newToken = (currentDelimiter && !nextDelimiter) || (!currentDelimiter && nextDelimiter);
 
+            // Checks if left bracket is followed by right bracket and splits them -> Function initialization without parameter
             if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
 
             newToken = nextIndex == i || newToken;
 
-            boolean isIdent = true;
+            // boolean to check if Ident
+            boolean isIdent;
 
             if(newToken){
                 int startSize = tokenList.size();
                 int endSize;
                 if(!toMatch.equals("")){
+
+                    //Literal
                     if(toMatch.matches(Terminals.LITERAL.pattern)) tokenList.add(new Literal(Integer.parseInt(toMatch)));
 
+                    //RelOpr
                     if(toMatch.matches(Operators.NOT.pattern)) tokenList.add(new RelOpr(Operators.NOT));
                     if(toMatch.matches(Operators.EQ.pattern)) tokenList.add(new RelOpr(Operators.EQ));
                     if(toMatch.matches(Operators.NE.pattern)) tokenList.add(new RelOpr(Operators.NE));
@@ -66,12 +73,14 @@ public class LexicalAnalysisScanner {
                     //if(toMatch.matches(Operators.CAND.pattern)) tokenList.add(new Relopr(Operators.CAND));
                     //if(toMatch.matches(Operators.COR.pattern)) tokenList.add(new Relopr(Operators.COR));
 
+                    //AddOpr
                     if(toMatch.matches(Operators.TIMES.pattern)) tokenList.add(new AddOpr(Operators.TIMES));
                     if(toMatch.matches(Operators.DIV.pattern)) tokenList.add(new AddOpr(Operators.DIV));
                     if(toMatch.matches(Operators.MOD.pattern)) tokenList.add(new AddOpr(Operators.MOD));
                     if(toMatch.matches(Operators.PLUS.pattern)) tokenList.add(new AddOpr(Operators.PLUS));
                     if(toMatch.matches(Operators.MINUS.pattern)) tokenList.add(new AddOpr(Operators.MINUS));
 
+                    //Terminals
                     if(toMatch.matches(Terminals.WHILE.pattern)) tokenList.add(new Base(Terminals.WHILE));
                     if(toMatch.matches(Terminals.ENDWHILE.pattern)) tokenList.add(new Base(Terminals.ENDWHILE));
                     if(toMatch.matches(Terminals.DO.pattern)) tokenList.add(new Base(Terminals.DO));
@@ -87,6 +96,7 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Terminals.DEBUGIN.pattern)) tokenList.add(new Base(Terminals.DEBUGIN));
                     if(toMatch.matches(Terminals.DEBUGOUT.pattern)) tokenList.add(new Base(Terminals.DEBUGOUT));
 
+                    //check if it was any of the other tokens -> add as IDENT if it matches throws error if it doesn't
                     endSize = tokenList.size();
                     isIdent = startSize == endSize;
                     if(isIdent && toMatch.matches(Terminals.IDENT.pattern)){
@@ -94,18 +104,11 @@ public class LexicalAnalysisScanner {
                     }else if(isIdent){
                         throw new LexicalAnalysisException("Token \"" + toMatch + "\" is  not a valid input.");
                     }
-
-
                 }
 
-
-
-
+                //Clear StringBuilder
                 sBuild = new StringBuilder();
-
-
             }
-
         }
         tokenList.add(new Base(Terminals.SENTINEL));
         return tokenList;
