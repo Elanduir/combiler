@@ -13,8 +13,8 @@ public enum Operators{
     LT("(<)"),
     GE("(>=)"),
     LE("(<=)"),
-    CAND(""),
-    COR("");
+    CAND("/\\"),
+    COR("\\/");
 
     public final String pattern;
     Operators(String pattern){

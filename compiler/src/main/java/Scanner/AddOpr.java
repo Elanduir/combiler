@@ -12,6 +12,6 @@ public class AddOpr extends Base{
     }
 
     public String toString(){
-        return "(" + super.toString() + "," + this.value + ")";
+        return "(" + super.toString() + ", " + this.value + ")";
     }
 }

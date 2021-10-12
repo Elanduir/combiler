@@ -33,6 +33,7 @@ public class LexicalAnalysisScanner {
         List<Base> tokenList = new ArrayList<>();
         String toMatch;
 
+
         for (int i = 0; i < characters.length; i++) {
             sBuild.append(characters[i]);
             toMatch = sBuild.toString().trim();
