@@ -1,4 +1,6 @@
-package Scanner;
+import Scanner.Base;
+import Scanner.LexicalAnalysisException;
+import Scanner.LexicalAnalysisScanner;
 
 import java.nio.file.Path;
 import java.util.List;
