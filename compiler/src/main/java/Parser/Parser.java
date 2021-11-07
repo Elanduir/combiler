@@ -24,7 +24,17 @@ public class Parser {
     }
 
     //consume
-
+    private Base consume(Terminals expectedTerminal) throws GrammerException {
+        if (this.currentTerminal == expectedTerminal) {
+            Base consumedTerminal = this.currentToken;
+            if (this.currentTerminal != Terminals.SENTINEL) {
+                nextToken();
+            }
+            return consumedTerminal;
+        } else {
+            throw new GrammerException("not expected Terminal");
+        }
+    }
 
     //parse
 
