@@ -1,9 +1,9 @@
 package ParseTable;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -23,12 +23,18 @@ public class ParseTableCreator {
     Map<String, Integer> rowLookup;
     Map<String, Integer> columnLookup;
 
+    String[][] tableNoHeader;
+    String[][] tableToPrint;
+
+    File outputFile;
+
     List<Info> informations;
     public ParseTableCreator() throws IOException, URISyntaxException {
         ClassLoader loader = ParseTableCreator.super.getClass().getClassLoader();
         terminalsURL = loader.getResource("ParseTable/Terminals.txt");
         ntsURL = loader.getResource("ParseTable/NTS.txt");
         mmURL = loader.getResource("ParseTable/MM.txt");
+        outputFile = new File("ParseTable.csv");
 
         terminals = Files.readString(Path.of(terminalsURL.toURI()));
         nts = Files.readString(Path.of(ntsURL.toURI()));
@@ -40,16 +46,15 @@ public class ParseTableCreator {
         rowLookup = createTableIndex(rowIndex);
         columnLookup = createTableIndex(columnIndex);
 
-        for(Map.Entry<String, Integer> i : rowLookup.entrySet()){
-            System.out.println(i.getKey());
-        }
-
-        for(Map.Entry<String, Integer> i : columnLookup.entrySet()){
-            System.out.println(i.getKey());
-        }
-
         informations = splitInfo();
-        createTable();
+
+        tableNoHeader = createTable();
+
+        tableToPrint = createHeaders();
+
+        writeCSV();
+
+
     }
 
     private Map<String, Integer> createTableIndex(String[] items){
@@ -64,26 +69,21 @@ public class ParseTableCreator {
     }
 
     private String[][] createTable(){
-        String[][] table = new String[columnIndex.length][rowIndex.length];
+        String[][] table = new String[rowIndex.length][columnIndex.length];
         for (String[] strings : table) {
             Arrays.fill(strings, "");
         }
 
-        int x = 0;
-        int y = 0;
+        int x;
+        int y;
 
         for(Info i : informations){
-            System.out.println(i);
             y = rowLookup.get(i.nts);
             x = columnLookup.get(i.terminal);
             table[y][x] = i.info;
         }
 
-        for(String[] t : table){
-            System.out.println(Arrays.toString(t));
-        }
-
-        return null;
+        return table;
     }
 
     private List<Info> splitInfo(){
@@ -110,6 +110,42 @@ public class ParseTableCreator {
         }
         return infos;
     }
+
+    private String[][] createHeaders(){
+        String[][] tableWithHeaders = new String[tableNoHeader.length+ 1][tableNoHeader[0].length+1];
+        tableWithHeaders[0][0] = "";
+        for (int i = 1; i < tableWithHeaders[0].length - 1; i++) {
+            tableWithHeaders[0][i] = columnIndex[i - 1];
+        }
+
+        for (int i = 1; i < tableWithHeaders.length; i++) {
+            for (int j = 0; j < tableWithHeaders[i].length; j++) {
+                tableWithHeaders[i][j] = (j == 0) ? rowIndex[i-1] : tableNoHeader[i - 1][j - 1];
+
+            }
+
+        }
+
+        for(String[] a : tableWithHeaders){
+            System.out.println(Arrays.toString(a));
+        }
+
+
+        return tableWithHeaders;
+    }
+
+    private void writeCSV() throws IOException {
+        Files.deleteIfExists(Path.of("./" + outputFile));
+        FileWriter fileWriter = new FileWriter("./" + outputFile, true);
+        for(String[] a : tableToPrint){
+            fileWriter.write(Arrays.toString(a).replace("[", "").replace("]", ""));
+            fileWriter.write(System.getProperty("line.separator"));
+        }
+
+
+        fileWriter.close();
+    }
+
 
 }
 
