@@ -99,6 +99,14 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Terminals.DEBUGIN.pattern)) tokenList.add(new Base(Terminals.DEBUGIN));
                     if(toMatch.matches(Terminals.DEBUGOUT.pattern)) tokenList.add(new Base(Terminals.DEBUGOUT));
 
+                    if(toMatch.matches(Terminals.CASTSTOI.pattern)) tokenList.add(new Base(Terminals.CASTSTOI));
+                    if(toMatch.matches(Terminals.CASTSTOL.pattern)) tokenList.add(new Base(Terminals.CASTSTOL));
+                    if(toMatch.matches(Terminals.CASTITOS.pattern)) tokenList.add(new Base(Terminals.CASTITOS));
+                    if(toMatch.matches(Terminals.CASTITOL.pattern)) tokenList.add(new Base(Terminals.CASTITOL));
+                    if(toMatch.matches(Terminals.CASTLTOS.pattern)) tokenList.add(new Base(Terminals.CASTLTOS));
+                    if(toMatch.matches(Terminals.CASTLTOI.pattern)) tokenList.add(new Base(Terminals.CASTLTOI));
+
+
                     //check if it was any of the other tokens -> add as IDENT if it matches throws error if it doesn't
                     endSize = tokenList.size();
                     isIdent = startSize == endSize;

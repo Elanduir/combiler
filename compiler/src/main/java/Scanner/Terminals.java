@@ -19,7 +19,13 @@ public enum Terminals {
     RELOPR(""),
     ADDOPR(""),
     LITERAL("[0-9]+"),
-    SENTINEL("");
+    SENTINEL(""),
+    CASTSTOL("castStoL"),
+    CASTSTOI("castStoI"),
+    CASTITOS("castItoS"),
+    CASTITOL("castItoL"),
+    CASTLTOS("castLtoS"),
+    CASTLTOI("castLtoI");
 
     public final String pattern;
     Terminals(String pattern){

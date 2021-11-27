@@ -9,4 +9,5 @@ global
 do
   debugin x init;
   debugout f(x)
+  x := castStoL : y
 endprogram
