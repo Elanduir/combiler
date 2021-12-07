@@ -14,7 +14,7 @@ public class RunStuff {
         List<Base> tokenList = scanner.analyze(fileHandler.getFilePath("testCode.txt"));
         System.out.println(tokenList);
 
-        ParseTableCreator parseTableCreator = new ParseTableCreator();
+        //ParseTableCreator parseTableCreator = new ParseTableCreator();
 
 
 
