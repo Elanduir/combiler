@@ -37,7 +37,6 @@ public class ParseTableCreator {
         outputFile = new File("ParseTable.csv");
         outputPath = System.getProperty("user.dir");
         outputPath += "/compiler/src/main/resources/ParseTable/";
-        System.out.println(outputPath);
 
         terminals = Files.readString(Path.of(terminalsURL.toURI()));
         nts = Files.readString(Path.of(ntsURL.toURI()));
@@ -128,12 +127,6 @@ public class ParseTableCreator {
             }
 
         }
-
-        for(String[] a : tableWithHeaders){
-            System.out.println(Arrays.toString(a));
-        }
-
-
         return tableWithHeaders;
     }
 
