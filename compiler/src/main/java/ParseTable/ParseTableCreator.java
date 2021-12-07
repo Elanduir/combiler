@@ -3,7 +3,6 @@ package ParseTable;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -27,6 +26,7 @@ public class ParseTableCreator {
     String[][] tableToPrint;
 
     File outputFile;
+    String outputPath;
 
     List<Info> informations;
     public ParseTableCreator() throws IOException, URISyntaxException {
@@ -35,6 +35,9 @@ public class ParseTableCreator {
         ntsURL = loader.getResource("ParseTable/NTS.txt");
         mmURL = loader.getResource("ParseTable/MM.txt");
         outputFile = new File("ParseTable.csv");
+        outputPath = System.getProperty("user.dir");
+        outputPath += "/compiler/src/main/resources/ParseTable/";
+        System.out.println(outputPath);
 
         terminals = Files.readString(Path.of(terminalsURL.toURI()));
         nts = Files.readString(Path.of(ntsURL.toURI()));
@@ -135,10 +138,10 @@ public class ParseTableCreator {
     }
 
     private void writeCSV() throws IOException {
-        Files.deleteIfExists(Path.of("./" + outputFile));
-        FileWriter fileWriter = new FileWriter("./" + outputFile, true);
+        Files.deleteIfExists(Path.of(outputPath + outputFile));
+        FileWriter fileWriter = new FileWriter(outputPath + outputFile, true);
         for(String[] a : tableToPrint){
-            fileWriter.write(Arrays.toString(a).replace("[", "").replace("]", ""));
+            fileWriter.write(Arrays.toString(a).replace("[", "").replace("]", "").replace(",", ";"));
             fileWriter.write(System.getProperty("line.separator"));
         }
 

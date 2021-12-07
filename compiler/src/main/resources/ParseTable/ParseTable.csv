@@ -1,0 +1,51 @@
+; PROGRAM; IDENT; DO; ENDPROGRAM; GLOBAL; SEMICOLON; CHANGEMODE; COLON; TYPE; FUN; RETURNS; ENDFUN; LOCAL; LPAREN; RPAREN; COMMA; MECHMODE; SKIP; BECOMES; IF; THEN; ENDIF; ELSE; WHILE; ENDWHILE; LITERAL; DEBUGIN; DEBUGOUT; CALL; BOOLOPR; RELOPR; ADDOPR; MULTOPR; CASTSTOI; CASTSTOL; CASTLTOS; CASTLTOI; CASTITOS; CASTITOL; INIT; NOT; PROC; null
+program; PROGRAM IDENT <globalNTS> DO <cpsCmd> ENDPROGRAM; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+globalNTS; ; ; ɛ; ; GLOBAL <cpsDecl>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+cpsDeclNTS; ; ; ɛ; ; ; SEMICOLON <decl> <cpsDeclNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+cpsDecl; ; <decl> <cpsDeclNTS>; ; ; ; ; <decl> <cpsDeclNTS>; ; ; <decl> <cpsDeclNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; <decl> <cpsDeclNTS>; 
+decl; ; <stoDecl>; ; ; ; ; <stoDecl>; ; ; <funDecl>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; <procDecl>; 
+stoDecl; ; <typedIdent>; ; ; ; ; CHANGEMODE <typedIdent>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+typedIdent; ; IDENT COLON TYPE; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+funDecl; ; ; ; ; ; ; ; ; ; FUN IDENT <paramList> RETURNS <stoDecl> <funDeclNTS> DO <cpsCmd> ENDFUN; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+funDeclNTS; ; ; ɛ; ; ; ; ; ; ; ; ; ; LOCAL <cpsStoDecl>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+paramList; ; ; ; ; ; ; ; ; ; ; ; ; ; LPAREN <paramListNTS> RPAREN; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+paramListNTS; ; <param> <paramNTS>; ; ; ; ; <param> <paramNTS>; ; ; ; ; ; ; ; ɛ; ; <param> <paramNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+param; ; <changeModeNTS> <mechModeNTS> <typedIdent>; ; ; ; ; <changeModeNTS> <mechModeNTS> <typedIdent>; ; ; ; ; ; ; ; ; ; <changeModeNTS> <mechModeNTS> <typedIdent>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+paramNTS; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ɛ; COMMA <param> <paramNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+changeModeNTS; ; ɛ; ; ; ; ; CHANGEMODE; ; ; ; ; ; ; ; ; ; ɛ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+mechModeNTS; ; ɛ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; MECHMODE; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+cpsCmd; ; <cmd> <cpsCmdNTS>; ; ; ; ; ; ; ; ; ; ; ; <cmd> <cpsCmdNTS>; ; ; ; <cmd> <cpsCmdNTS>; ; <cmd> <cpsCmdNTS>; ; ; ; <cmd> <cpsCmdNTS>; ; <cmd> <cpsCmdNTS>; <cmd> <cpsCmdNTS>; <cmd> <cpsCmdNTS>; <cmd> <cpsCmdNTS>; ; ; <cmd> <cpsCmdNTS>; ; ; ; ; ; ; ; ; <cmd> <cpsCmdNTS>; ; 
+cpsCmdNTS; ; ; ; ɛ; ; SEMICOLON <cmd> <cpsCmdNTS>; ; ; ; ; ; ɛ; ; ; ; ; ; ; ; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ɛ
+cmd; ; <expr> BECOMES <expr>; ; ; ; ; ; ; ; ; ; ; ; <expr> BECOMES <expr>; ; ; ; SKIP; ; IF <expr> THEN <cpsCmd> <ifelseNTS> ENDIF; ; ; ; WHILE <expr> DO <cpsCmd> ENDWHILE; ; <expr> BECOMES <expr>; DEBUGIN <expr>; DEBUGOUT <expr>; CALL IDENT <exprList>; ; ; <expr> BECOMES <expr>; ; ; ; ; ; ; ; ; <expr> BECOMES <expr>; ; 
+ifelseNTS; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ɛ; ELSE <cpsCmd>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+expr; ; <term0>; ; ; ; ; ; ; ; ; ; ; ; <term0>; ; ; ; ; ; ; ; ; ; ; ; <term0>; ; ; ; ; ; <term0>; ; ; ; ; ; ; ; ; <term0>; ; 
+term0; ; <term1> <term0NTS>; ; ; ; ; ; ; ; ; ; ; ; <term1> <term0NTS>; ; ; ; ; ; ; ; ; ; ; ; <term1> <term0NTS>; ; ; ; ; ; <term1> <term0NTS>; ; ; ; ; ; ; ; ; <term1> <term0NTS>; ; 
+term0NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; BOOLOPR <term1> <term0NTS>; ; ; ; ; ; ; ; ; ; ; ; ; ɛ
+term1; ; <term2> <term1NTS>; ; ; ; ; ; ; ; ; ; ; ; <term2> <term1NTS>; ; ; ; ; ; ; ; ; ; ; ; <term2> <term1NTS>; ; ; ; ; ; <term2> <term1NTS>; ; ; ; ; ; ; ; ; <term2> <term1NTS>; ; 
+term1NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; RELOPR <term2>; ; ; ; ; ; ; ; ; ; ; ; ɛ
+term2; ; <term3> <term2NTS>; ; ; ; ; ; ; ; ; ; ; ; <term3> <term2NTS>; ; ; ; ; ; ; ; ; ; ; ; <term3> <term2NTS>; ; ; ; ; ; <term3> <term2NTS>; ; ; ; ; ; ; ; ; <term3> <term2NTS>; ; 
+term2NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ADDOPR <term3> <term2NTS>; ; ; ; ; ; ; ; ; ; ; ɛ
+term3; ; <term4> <term3NTS>; ; ; ; ; ; ; ; ; ; ; ; <term4> <term3NTS>; ; ; ; ; ; ; ; ; ; ; ; <term4> <term3NTS>; ; ; ; ; ; <term4> <term3NTS>; ; ; ; ; ; ; ; ; <term4> <term3NTS>; ; 
+term3NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; CASTSTOI <term4> <term3NTS>; ; ; ; ; ; ; ; ; ɛ
+term4; ; <term5> <term4NTS>; ; ; ; ; ; ; ; ; ; ; ; <term5> <term4NTS>; ; ; ; ; ; ; ; ; ; ; ; <term5> <term4NTS>; ; ; ; ; ; <term5> <term4NTS>; ; ; ; ; ; ; ; ; <term5> <term4NTS>; ; 
+term4NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; ɛ; CASTSTOL <term5> <term4NTS>; ; ; ; ; ; ; ; ɛ
+term5; ; <term6> <term5NTS>; ; ; ; ; ; ; ; ; ; ; ; <term6> <term5NTS>; ; ; ; ; ; ; ; ; ; ; ; <term6> <term5NTS>; ; ; ; ; ; <term6> <term5NTS>; ; ; ; ; ; ; ; ; <term6> <term5NTS>; ; 
+term5NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; ɛ; ɛ; ; ; CASTITOS <term6> <term5NTS>; ; ; ; ; ɛ
+term6; ; <term7> <term6NTS>; ; ; ; ; ; ; ; ; ; ; ; <term7> <term6NTS>; ; ; ; ; ; ; ; ; ; ; ; <term7> <term6NTS>; ; ; ; ; ; <term7> <term6NTS>; ; ; ; ; ; ; ; ; <term7> <term6NTS>; ; 
+term6NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; ɛ; ɛ; ; ; ɛ; CASTITOL <term7> <term6NTS>; ; ; ; ɛ
+term7; ; <term8> <term7NTS>; ; ; ; ; ; ; ; ; ; ; ; <term8> <term7NTS>; ; ; ; ; ; ; ; ; ; ; ; <term8> <term7NTS>; ; ; ; ; ; <term8> <term7NTS>; ; ; ; ; ; ; ; ; <term8> <term7NTS>; ; 
+term7NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; ɛ; ɛ; CASTLTOS <term8> <term7NTS>; ; ɛ; ɛ; ; ; ; ɛ
+term8; ; <term9> <term8NTS>; ; ; ; ; ; ; ; ; ; ; ; <term9> <term8NTS>; ; ; ; ; ; ; ; ; ; ; ; <term9> <term8NTS>; ; ; ; ; ; <term9> <term8NTS>; ; ; ; ; ; ; ; ; <term9> <term8NTS>; ; 
+term8NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ; ɛ; ɛ; ɛ; CASTLTOI <term9> <term8NTS>; ɛ; ɛ; ; ; ; ɛ
+term9; ; <factor> <term9NTS>; ; ; ; ; ; ; ; ; ; ; ; <factor> <term9NTS>; ; ; ; ; ; ; ; ; ; ; ; <factor> <term9NTS>; ; ; ; ; ; <factor> <term9NTS>; ; ; ; ; ; ; ; ; <factor> <term9NTS>; ; 
+term9NTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; ; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; MULTOPR <factor> <term9NTS>; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; ; ; ; ɛ
+factor; ; IDENT <factorNTS>; ; ; ; ; ; ; ; ; ; ; ; LPAREN <expr> RPAREN; ; ; ; ; ; ; ; ; ; ; ; LITERAL; ; ; ; ; ; <monadicOpr> <factor>; ; ; ; ; ; ; ; ; <monadicOpr> <factor>; ; 
+factorNTS; ; ; ɛ; ɛ; ; ɛ; ; ; ; ; ; ɛ; ; <exprList>; ɛ; ɛ; ; ; ɛ; ; ɛ; ɛ; ɛ; ; ɛ; ; ; ; ; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; ɛ; INIT; ; ; ɛ
+exprList; ; ; ; ; ; ; ; ; ; ; ; ; ; LPAREN <exprListLparenNTS> RPAREN; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+exprListLparenNTS; ; <expr> <exprListNTS>; ; ; ; ; ; ; ; ; ; ; ; <expr> <exprListNTS>; ɛ; ; ; ; ; ; ; ; ; ; ; <expr> <exprListNTS>; ; ; ; ; ; <expr> <exprListNTS>; ; ; ; ; ; ; ; ; <expr> <exprListNTS>; ; 
+exprListNTS; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ɛ; COMMA <expr> <exprListNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+monadicOpr; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ADDOPR; ; ; ; ; ; ; ; ; NOT; ; 
+cpsStoDecl; ; <stoDecl> <cpsStoDeclNTS>; ; ; ; ; <stoDecl> <cpsStoDeclNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+cpsStoDeclNTS; ; ; ɛ; ; ; SEMICOLON <stoDecl> <cpsStoDeclNTS>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
+procDecl; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; PROC IDENT <paramList> <procDeclNTS> DO <cpsCmd> ENDPROC; 
+procDeclNTS; ; ; ; ; ; ; ; ; ; ; ; ; LOCAL <cpsStoDecl>; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; ; 
