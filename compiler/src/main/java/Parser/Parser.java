@@ -32,10 +32,11 @@ public class Parser {
             }
             return consumedTerminal;
         } else {
-            throw new GrammerException("not expected Terminal");
+            throw new GrammerException("terminal expected: " + expectedTerminal + ", terminal found: " + currentTerminal);
         }
     }
 
     //parse
+
 
 }
