@@ -1,5 +1,7 @@
 package Scanner;
 
+import java.lang.reflect.Type;
+
 public enum Terminals {
     PROGRAM("(program)"),
     ENDPROGRAM("(endprogram)"),
@@ -25,7 +27,8 @@ public enum Terminals {
     CASTITOS("castItoS"),
     CASTITOL("castItoL"),
     CASTLTOS("castLtoS"),
-    CASTLTOI("castLtoI");
+    CASTLTOI("castLtoI"),
+    TYPE("short|int|long");
 
     public final String pattern;
     Terminals(String pattern){

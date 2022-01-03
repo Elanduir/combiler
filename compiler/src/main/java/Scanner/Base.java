@@ -1,7 +1,7 @@
 package Scanner;
 
-public class Base {
-    public final Terminals terminal;
+public class Base{
+    public Terminals terminal;
 
     public Base(Terminals terminal){
         this.terminal = terminal;

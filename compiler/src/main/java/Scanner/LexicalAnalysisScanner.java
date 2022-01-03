@@ -107,6 +107,10 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Terminals.CASTLTOI.pattern)) tokenList.add(new Base(Terminals.CASTLTOI));
 
 
+                    //Types
+                    if(toMatch.matches(Terminals.TYPE.pattern)) tokenList.add(new Type(toMatch));
+
+
                     //check if it was any of the other tokens -> add as IDENT if it matches throws error if it doesn't
                     endSize = tokenList.size();
                     isIdent = startSize == endSize;

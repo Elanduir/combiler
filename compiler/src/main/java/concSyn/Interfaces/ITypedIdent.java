@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ITypedIdent {
+public interface ITypedIdent extends IProduction{
 }
