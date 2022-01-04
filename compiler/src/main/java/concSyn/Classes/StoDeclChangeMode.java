@@ -1,12 +1,21 @@
 package concSyn.Classes;
 
 import Scanner.Base;
-import concSyn.Interfaces.IGlobalNTS;
-import concSyn.Interfaces.IProduction;
+import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class GlobalNTSEpsilon implements IGlobalNTS{
+public class StoDeclChangeMode implements IStoDecl{
+
+    private final ITypedIdent N_TypedIdent;
+    private final Base T_changemode;
+
+    public StoDeclChangeMode(Base T_changemode, ITypedIdent N_TypedIdent){
+        this.N_TypedIdent = N_TypedIdent;
+        this.T_changemode = T_changemode;
+    }
+
+
     @Override
     public String toString(String indent) {
         String subindent = indent + " ";

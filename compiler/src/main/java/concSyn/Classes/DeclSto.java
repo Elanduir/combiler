@@ -1,12 +1,18 @@
 package concSyn.Classes;
 
 import Scanner.Base;
-import concSyn.Interfaces.IGlobalNTS;
-import concSyn.Interfaces.IProduction;
+import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class GlobalNTSEpsilon implements IGlobalNTS{
+public class DeclSto implements IDecl{
+
+    private final IStoDecl N_StoDecl;
+
+    public DeclSto(IStoDecl N_StoDecl){
+        this.N_StoDecl = N_StoDecl;
+    }
+
     @Override
     public String toString(String indent) {
         String subindent = indent + " ";

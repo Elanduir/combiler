@@ -4,9 +4,7 @@ import Scanner.Base;
 import Scanner.Terminals;
 import java.util.List;
 
-import concSyn.Classes.GlobalNTSEpsilon;
-import concSyn.Classes.GlobalNTSGlobal;
-import concSyn.Classes.Program;
+import concSyn.Classes.*;
 import concSyn.Interfaces.*;
 
 //TODO: 76 & 160
@@ -72,36 +70,49 @@ public class Parser {
 
     private ICpsDecl cpsDecl() throws GrammerException{
         if(currentTerminal == Terminals.FUNCTION || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.PROCEDUR || currentTerminal == Terminals.CHANGEMODE){
-            decl();
-            cpsDeclNTS();
+            IDecl N_decl =  decl();
+            ICpsDeclNTS N_cpsDeclNTS = cpsDeclNTS();
+            return new CpsDcl(N_decl, N_cpsDeclNTS);
+        }else{
+            throw new GrammerException("Invalid token at: " + currentToken);
         }
-        return null; //TODO
+
     }
 
-    private void decl() throws  GrammerException{
+    private IDecl decl() throws  GrammerException{
         if( currentTerminal == Terminals.IDENT ||  currentTerminal == Terminals.CHANGEMODE){
-            stoDecl();
+            IStoDecl N_stoDecl = stoDecl();
+            return new DeclSto(N_stoDecl);
         }else if(currentTerminal == Terminals.FUNCTION){
-            funDecl();
+            IFunDecl N_funDecl = funDecl();
+            return new DeclFun(N_funDecl);
+        }else if(currentTerminal == Terminals.PROCEDUR){
+            IProcDecl N_procDecl = procDecl();
+            return new DeclProc(N_procDecl);
         }else{
-            procDecl();
+            throw new GrammerException("Invalid token at: " + currentToken);
         }
     }
 
-    private void cpsDeclNTS() throws  GrammerException{
+    private ICpsDeclNTS cpsDeclNTS() throws  GrammerException{
         if(currentTerminal == Terminals.SEMICOLON){
-            consume(Terminals.SEMICOLON);
-            decl();
-            cpsDeclNTS();
+            Base T_semicolon = consume(Terminals.SEMICOLON);
+            IDecl N_decl = decl();
+            ICpsDeclNTS N_cpsDeclNTS = cpsDeclNTS();
+            return new CpsDeclNTS(T_semicolon, N_decl, N_cpsDeclNTS);
+        }else{
+            throw new GrammerException("Invalid token at: " + currentToken);
         }
     }
 
-    private void stoDecl() throws GrammerException{
+    private IStoDecl stoDecl() throws GrammerException{
         if(currentTerminal == Terminals.CHANGEMODE){
-            consume(Terminals.CHANGEMODE);
-            typeident();
+            Base T_changemode = consume(Terminals.CHANGEMODE);
+            ITypedIdent N_TypeIdent = typeident();
+            return new StoDeclChangeMode(T_changemode, N_TypeIdent);
         }else{
-            typeident();
+            ITypedIdent N_typeIdent = typeident();
+            return new StoDeclTypeIdent(N_typeIdent);
         }
     }
 
@@ -447,10 +458,11 @@ public class Parser {
         }
     }
 
-    private void typeident() throws GrammerException{
-        consume(Terminals.IDENT);
-        consume(Terminals.COLON);
-        consume(Terminals.TYPE);
+    private ITypedIdent typeident() throws GrammerException{
+        Base T_Ident = consume(Terminals.IDENT);
+        Base T_colon = consume(Terminals.COLON);
+        Base T_type =consume(Terminals.TYPE);
+        return new TypedIdent(T_Ident, T_colon, T_type);
     }
 
 
