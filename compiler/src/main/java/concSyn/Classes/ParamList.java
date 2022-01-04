@@ -4,13 +4,16 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+public class ParamList implements IParamList{
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+    private final Base T_leftbracket;
+    private final IParamListNTS N_paramListNTS;
+    private final Base T_rightbracket;
+
+    public ParamList(Base t_leftbracket, IParamListNTS n_paramListNTS, Base t_rightbracket) {
+        T_leftbracket = t_leftbracket;
+        N_paramListNTS = n_paramListNTS;
+        T_rightbracket = t_rightbracket;
     }
 
     @Override
@@ -32,4 +35,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

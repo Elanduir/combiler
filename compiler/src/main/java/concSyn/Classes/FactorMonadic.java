@@ -4,16 +4,16 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+public class FactorMonadic implements IFactor{
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+    private final IMonadicOpr N_monadicOpr;
+    private final IFactorNTS N_factorNTS;
+
+    public FactorMonadic(IMonadicOpr n_monadicOpr, IFactorNTS n_factorNTS) {
+        N_monadicOpr = n_monadicOpr;
+        N_factorNTS = n_factorNTS;
     }
 
-    @Override
     public String toString(String indent) {
         String subindent = indent + " ";
         String s = "";
@@ -32,4 +32,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

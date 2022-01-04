@@ -1,16 +1,22 @@
 package concSyn.Classes;
+
 import Scanner.Base;
-import concSyn.Interfaces.*;
+import concSyn.Interfaces.IProduction;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+import concSyn.Interfaces.*;
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+public class Term0NTSBool implements ITerm0NTS{
+
+    private final Base T_boolOpr;
+    private final ITerm1 N_term1;
+    private final ITerm0NTS N_term0NTS;
+
+    public Term0NTSBool(Base t_boolOpr, ITerm1 n_term1, ITerm0NTS n_term0NTS) {
+        T_boolOpr = t_boolOpr;
+        N_term1 = n_term1;
+        N_term0NTS = n_term0NTS;
     }
 
     @Override
@@ -32,4 +38,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

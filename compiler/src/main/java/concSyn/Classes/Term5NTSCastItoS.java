@@ -4,13 +4,16 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+public class Term5NTSCastItoS implements ITerm5NTS{
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+    private final Base T_castItoS;
+    private final ITerm6 N_term6;
+    private final ITerm5NTS N_termNTS5;
+
+    public Term5NTSCastItoS(Base t_castItoS, ITerm6 n_term6, ITerm5NTS n_termNTS5) {
+        T_castItoS = t_castItoS;
+        N_term6 = n_term6;
+        N_termNTS5 = n_termNTS5;
     }
 
     @Override
@@ -32,4 +35,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

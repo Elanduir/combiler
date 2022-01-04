@@ -4,11 +4,14 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
+public class Term9NTSMult implements ITerm9NTS{
+
+    private final Base T_multOpr;
     private final IFactor N_factor;
     private final ITerm9NTS N_term9NTS;
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
+    public Term9NTSMult(Base t_multOpr, IFactor n_factor, ITerm9NTS n_term9NTS) {
+        T_multOpr = t_multOpr;
         N_factor = n_factor;
         N_term9NTS = n_term9NTS;
     }
@@ -32,4 +35,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

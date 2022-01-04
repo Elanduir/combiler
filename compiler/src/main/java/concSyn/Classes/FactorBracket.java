@@ -4,16 +4,18 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+public class FactorBracket implements IFactor{
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+    private final Base T_leftbracket;
+    private final IExpr N_expr;
+    private final Base T_rightbracket;
+
+    public FactorBracket(Base t_leftbracket, IExpr n_expr, Base t_rightbracket) {
+        T_leftbracket = t_leftbracket;
+        N_expr = n_expr;
+        T_rightbracket = t_rightbracket;
     }
 
-    @Override
     public String toString(String indent) {
         String subindent = indent + " ";
         String s = "";
@@ -32,4 +34,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

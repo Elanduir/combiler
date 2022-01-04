@@ -4,13 +4,12 @@ import concSyn.Interfaces.*;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+public class ChangeModeNTS implements IChangeModeNTS{
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+    private final Base T_changeMode;
+
+    public ChangeModeNTS(Base t_changeMode) {
+        T_changeMode = t_changeMode;
     }
 
     @Override
@@ -32,4 +31,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-

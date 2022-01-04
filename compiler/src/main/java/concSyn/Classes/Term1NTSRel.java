@@ -1,16 +1,22 @@
 package concSyn.Classes;
+
 import Scanner.Base;
-import concSyn.Interfaces.*;
+import concSyn.Interfaces.IProduction;
 
 import java.lang.reflect.Field;
 
-public class Term9 implements ITerm9{
-    private final IFactor N_factor;
-    private final ITerm9NTS N_term9NTS;
+import concSyn.Interfaces.*;
 
-    public Term9(IFactor n_factor, ITerm9NTS n_term9NTS) {
-        N_factor = n_factor;
-        N_term9NTS = n_term9NTS;
+public class Term1NTSRel implements ITerm1NTS{
+
+    private final Base T_relOpr;
+    private final ITerm2 N_term2;
+
+
+    public Term1NTSRel(Base t_relOpr, ITerm2 n_term2) {
+        T_relOpr = t_relOpr;
+        N_term2 = n_term2;
+
     }
 
     @Override
@@ -32,4 +38,3 @@ public class Term9 implements ITerm9{
         return s;
     }
 }
-
