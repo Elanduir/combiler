@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ICmd {
+public interface ICmd  extends IProduction{
 }

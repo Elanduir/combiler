@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IExprList {
+public interface IExprList  extends IProduction{
 }

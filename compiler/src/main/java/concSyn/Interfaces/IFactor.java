@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IFactor {
+public interface IFactor  extends IProduction{
 }

@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IStoDecl {
+public interface IStoDecl extends IProduction {
 }

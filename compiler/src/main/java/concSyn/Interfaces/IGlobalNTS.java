@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IGlobalNTS {
+public interface IGlobalNTS  extends IProduction{
 }

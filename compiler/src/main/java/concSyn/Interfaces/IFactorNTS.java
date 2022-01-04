@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IFactorNTS {
+public interface IFactorNTS  extends IProduction{
 }

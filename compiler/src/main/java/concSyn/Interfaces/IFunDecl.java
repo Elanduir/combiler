@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IFunDecl {
+public interface IFunDecl  extends IProduction{
 }

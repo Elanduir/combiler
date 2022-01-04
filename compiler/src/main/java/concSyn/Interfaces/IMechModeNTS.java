@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IMechModeNTS {
+public interface IMechModeNTS  extends IProduction{
 }

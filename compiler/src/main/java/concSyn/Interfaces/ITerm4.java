@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ITerm4 {
+public interface ITerm4  extends IProduction{
 }

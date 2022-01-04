@@ -4,6 +4,13 @@ import Scanner.Base;
 import Scanner.Terminals;
 import java.util.List;
 
+import concSyn.Classes.GlobalNTSEpsilon;
+import concSyn.Classes.GlobalNTSGlobal;
+import concSyn.Classes.Program;
+import concSyn.Interfaces.*;
+
+//TODO: 76 & 160
+
 public class Parser {
 
     private List<Base> tokens;
@@ -36,29 +43,39 @@ public class Parser {
         }
     }
 
-    private void program() throws GrammerException {
-        consume(Terminals.PROGRAM);
-        consume(Terminals.IDENT);
-        globalNTS();
-        consume(Terminals.DO);
-        cpsCmd();
-        consume(Terminals.ENDPROGRAM);
+    private IProgram program() throws GrammerException {
+        Base T_prog = consume(Terminals.PROGRAM);
+        Base T_ident = consume(Terminals.IDENT);
+
+        IGlobalNTS N_globalNTS = globalNTS();
+
+        Base T_do = consume(Terminals.DO);
+
+        ICpsCmd N_cpsCmd = cpsCmd();
+
+        Base T_endprogram = consume(Terminals.ENDPROGRAM);
+
+        return new Program(T_prog, T_ident, N_globalNTS, T_do, N_cpsCmd, T_endprogram);
 
     }
 
-    private void globalNTS() throws GrammerException{
+    private IGlobalNTS globalNTS() throws GrammerException{
         if(currentTerminal == Terminals.GLOBAL){
-            consume(Terminals.GLOBAL);
-            cpsDecl();
+            Base T_global = consume(Terminals.GLOBAL);
+            ICpsDecl N_cpsDecl = cpsDecl();
+            return new GlobalNTSGlobal(T_global, N_cpsDecl);
+        }else if(currentTerminal == Terminals.DO){
+            return new GlobalNTSEpsilon();
         }
+        throw new GrammerException(Terminals.GLOBAL.toString());
     }
 
-    private void cpsDecl() throws GrammerException{
+    private ICpsDecl cpsDecl() throws GrammerException{
         if(currentTerminal == Terminals.FUNCTION || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.PROCEDUR || currentTerminal == Terminals.CHANGEMODE){
             decl();
             cpsDeclNTS();
         }
-
+        return null; //TODO
     }
 
     private void decl() throws  GrammerException{
@@ -137,11 +154,12 @@ public class Parser {
         }
     }
 
-    private void cpsCmd() throws  GrammerException{
+    private ICpsCmd cpsCmd() throws  GrammerException{
         if(currentTerminal == Terminals.DEBUGOUT || currentTerminal == Terminals.DEBUGIN || currentTerminal == Terminals.CALL || currentTerminal == Terminals.WHILE || currentTerminal == Terminals.IF || currentTerminal == Terminals.LEFTRBRACKET || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOT || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.SKIP){
             cmd();
             cpsCmdNTS();
         }
+        return null; //TODO
     }
 
     private void cpsCmdNTS() throws GrammerException {
@@ -434,14 +452,6 @@ public class Parser {
         consume(Terminals.COLON);
         consume(Terminals.TYPE);
     }
-
-
-
-
-
-
-
-    //parse
 
 
 }

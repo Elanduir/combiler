@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IParamNTS {
+public interface IParamNTS  extends IProduction{
 }

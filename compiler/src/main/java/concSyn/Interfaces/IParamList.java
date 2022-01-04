@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IParamList {
+public interface IParamList  extends IProduction{
 }

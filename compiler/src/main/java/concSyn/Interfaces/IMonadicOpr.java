@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IMonadicOpr {
+public interface IMonadicOpr  extends IProduction{
 }

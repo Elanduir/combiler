@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ICpsStoDeclNTS {
+public interface ICpsStoDeclNTS  extends IProduction{
 }

@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ICpsCmd {
+public interface ICpsCmd  extends IProduction{
 }

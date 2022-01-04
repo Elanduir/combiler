@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface ITerm6NTS {
+public interface ITerm6NTS  extends IProduction{
 }

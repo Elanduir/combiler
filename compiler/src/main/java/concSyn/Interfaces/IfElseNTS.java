@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IfElseNTS {
+public interface IfElseNTS  extends IProduction{
 }

@@ -1,4 +1,4 @@
 package concSyn.Interfaces;
 
-public interface IParam {
+public interface IParam  extends IProduction{
 }
