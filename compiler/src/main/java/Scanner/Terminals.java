@@ -7,6 +7,7 @@ public enum Terminals {
     ENDPROGRAM("(endprogram)"),
     GLOBAL("(global)"),
     FUNCTION("(fun)"),
+    PROCEDUR("proc"),
     DEBUGIN("(debugin)"),
     DEBUGOUT("(debugout)"),
     WHILE("(while)"),
@@ -28,7 +29,10 @@ public enum Terminals {
     CASTITOL("castItoL"),
     CASTLTOS("castLtoS"),
     CASTLTOI("castLtoI"),
-    TYPE("short|int|long");
+    TYPE("short|int|long"),
+    FLOWMODE("in|out|inout"),
+    CHANGEMODE("var|const"),
+    MECHMODE("copy|ref");
 
     public final String pattern;
     Terminals(String pattern){

@@ -96,6 +96,7 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Terminals.ENDPROGRAM.pattern)) tokenList.add(new Base(Terminals.ENDPROGRAM));
                     if(toMatch.matches(Terminals.GLOBAL.pattern)) tokenList.add(new Base(Terminals.GLOBAL));
                     if(toMatch.matches(Terminals.FUNCTION.pattern)) tokenList.add(new Base(Terminals.FUNCTION));
+                    if(toMatch.matches(Terminals.PROCEDUR.pattern)) tokenList.add(new Base(Terminals.PROCEDUR));
                     if(toMatch.matches(Terminals.DEBUGIN.pattern)) tokenList.add(new Base(Terminals.DEBUGIN));
                     if(toMatch.matches(Terminals.DEBUGOUT.pattern)) tokenList.add(new Base(Terminals.DEBUGOUT));
 
@@ -110,6 +111,10 @@ public class LexicalAnalysisScanner {
                     //Types
                     if(toMatch.matches(Terminals.TYPE.pattern)) tokenList.add(new Type(toMatch));
 
+                    //Modes
+                    if(toMatch.matches(Terminals.CHANGEMODE.pattern)) tokenList.add(new Changemode(toMatch));
+                    if(toMatch.matches(Terminals.FLOWMODE.pattern)) tokenList.add(new Flowmode(toMatch));
+                    if(toMatch.matches(Terminals.MECHMODE.pattern)) tokenList.add(new Mechmode(toMatch));
 
                     //check if it was any of the other tokens -> add as IDENT if it matches throws error if it doesn't
                     endSize = tokenList.size();
