@@ -44,13 +44,9 @@ public class Parser {
     private IProgram program() throws GrammerException {
         Base T_prog = consume(Terminals.PROGRAM);
         Base T_ident = consume(Terminals.IDENT);
-
         IGlobalNTS N_globalNTS = globalNTS();
-
         Base T_do = consume(Terminals.DO);
-
         ICpsCmd N_cpsCmd = cpsCmd();
-
         Base T_endprogram = consume(Terminals.ENDPROGRAM);
 
         return new Program(T_prog, T_ident, N_globalNTS, T_do, N_cpsCmd, T_endprogram);
@@ -116,121 +112,148 @@ public class Parser {
         }
     }
 
-    private void funDecl() throws GrammerException{
-        consume(Terminals.FUNCTION);
-        consume(Terminals.IDENT);
-        paramList();
-        consume(Terminals.RETURNS);
-        stoDecl();
-        funDeclNTS();
-        consume(Terminals.DO);
-        cpsCmd();
-        consume(Terminals.ENDFUN);
+    private IFunDecl funDecl() throws GrammerException{
+        return new FunDecl(consume(Terminals.FUNCTION),
+        consume(Terminals.IDENT),
+        paramList(),
+        consume(Terminals.RETURNS),
+        stoDecl(),
+        funDeclNTS(),
+        consume(Terminals.DO),
+        cpsCmd(),
+        consume(Terminals.ENDFUN));
     }
 
-    private void funDeclNTS() throws GrammerException{
+    private IFunDeclNTS funDeclNTS() throws GrammerException{
         if(currentTerminal == Terminals.LOCAL){
-            consume(Terminals.LOCAL);
-            cpsStoDecl();
+            return new FunDeclNTSLocal(
+            consume(Terminals.LOCAL),
+            cpsStoDecl());
+        }else{
+            return new FunDeclNTSEpsilon();
         }
     }
 
-    private void cpsStoDecl() throws GrammerException{
-        stoDecl();
-        cpsStoDeclNTS();
+    private ICpsStoDecl cpsStoDecl() throws GrammerException{
+        return new CpsStoDecl(
+        stoDecl(),
+        cpsStoDeclNTS());
     }
 
-    private void cpsStoDeclNTS() throws  GrammerException {
+    private ICpsStoDeclNTS cpsStoDeclNTS() throws  GrammerException {
         if(currentTerminal == Terminals.SEMICOLON){
-            consume(Terminals.SEMICOLON);
-            stoDecl();
-            cpsStoDeclNTS();
+            return new CpsStoDeclNTSSemicolon(
+            consume(Terminals.SEMICOLON),
+            stoDecl(),
+            cpsStoDeclNTS());
+        }else{
+            return new CpsStoDeclNTSEpsilon();
         }
     }
 
-    private void procDecl() throws GrammerException{
-        consume(Terminals.PROCEDUR);
-        consume(Terminals.IDENT);
-        paramList();
-        procDeclNTS();
-        consume(Terminals.DO);
-        cpsCmd();
-        consume(Terminals.ENDPROCEDUR);
+    private IProcDecl procDecl() throws GrammerException{
+        return new ProcDecl(
+        consume(Terminals.PROCEDUR),
+        consume(Terminals.IDENT),
+        paramList(),
+        procDeclNTS(),
+        consume(Terminals.DO),
+        cpsCmd(),
+        consume(Terminals.ENDPROCEDUR));
     }
 
-    private  void procDeclNTS() throws GrammerException {
+    private IProcDeclNTS procDeclNTS() throws GrammerException {
         if(currentTerminal == Terminals.LOCAL){
-            consume(Terminals.LOCAL);
-            cpsStoDecl();
+            return new ProcDeclNTSLocal(
+            consume(Terminals.LOCAL),
+            cpsStoDecl());
+        }else{
+            return new ProcDeclNTSEpsilon();
         }
     }
 
     private ICpsCmd cpsCmd() throws  GrammerException{
         if(currentTerminal == Terminals.DEBUGOUT || currentTerminal == Terminals.DEBUGIN || currentTerminal == Terminals.CALL || currentTerminal == Terminals.WHILE || currentTerminal == Terminals.IF || currentTerminal == Terminals.LEFTRBRACKET || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOT || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL || currentTerminal == Terminals.SKIP){
-            cmd();
-            cpsCmdNTS();
+            return new CpsCmdTerminal(
+            cmd(),
+            cpsCmdNTS());
+        }else{
+            return new CpsCmdEpsilon();
         }
-        return null; //TODO
     }
 
-    private void cpsCmdNTS() throws GrammerException {
+    private ICpsCmdNTS cpsCmdNTS() throws GrammerException {
         if(currentTerminal == Terminals.SEMICOLON){
-            consume(Terminals.SEMICOLON);
-            cmd();
-            cpsCmdNTS();
+            return new CpsCmdNTSSemicolon(
+            consume(Terminals.SEMICOLON),
+            cmd(),
+            cpsCmdNTS());
+        }else{
+            return new CpsCmdNTSEpsilon();
         }
     }
 
-    private void cmd() throws GrammerException {
+    private ICmd cmd() throws GrammerException {
         if(currentTerminal == Terminals.LEFTRBRACKET || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOT || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL){
-            expr();
-            consume(Terminals.BECOMES);
-            expr();
+            return new CmdTerminal(
+            expr(),
+            consume(Terminals.BECOMES),
+            expr());
         }else if(currentTerminal == Terminals.SKIP){
-            consume(Terminals.SKIP);
+            return new CmdSkip(consume(Terminals.SKIP));
+
         }else if(currentTerminal == Terminals.IF){
-            consume(Terminals.IF);
-            expr();
-            consume(Terminals.THEN);
-            cpsCmd();
-            ifelseNTS();
-            consume(Terminals.ENDIF);
+            return new CmdIf(
+            consume(Terminals.IF),
+            expr(),
+            consume(Terminals.THEN),
+            cpsCmd(),
+            ifelseNTS(),
+            consume(Terminals.ENDIF));
         }else if(currentTerminal == Terminals.WHILE){
-            consume(Terminals.WHILE);
-            expr();
-            consume(Terminals.DO);
-            cpsCmd();
-            consume(Terminals.ENDWHILE);
+            return new CmdWhile(
+            consume(Terminals.WHILE),
+            expr(),
+            consume(Terminals.DO),
+            cpsCmd(),
+            consume(Terminals.ENDWHILE));
         }else if(currentTerminal == Terminals.DEBUGIN){
-            consume(Terminals.DEBUGIN);
-            expr();
+            return new CmdDebugIn(
+            consume(Terminals.DEBUGIN),
+            expr());
         }else if(currentTerminal == Terminals.DEBUGOUT){
-            consume(Terminals.DEBUGOUT);
-            expr();
+            return new CmdDebugOut(
+            consume(Terminals.DEBUGOUT),
+            expr());
         }else if(currentTerminal == Terminals.CALL){
-            consume(Terminals.CALL);
-            consume(Terminals.IDENT);
-            exprList();
+            return new CmdCall(
+            consume(Terminals.CALL),
+            consume(Terminals.IDENT),
+            exprList());
+        }else{
+            throw new GrammerException("Invalid token at: " + currentToken);
         }
     }
 
-    private void ifelseNTS() throws GrammerException{
+    private IIfElseNTS ifelseNTS() throws GrammerException{
         if(currentTerminal == Terminals.ELSE){
-            consume(Terminals.ELSE);
-            cpsCmd();
+            return new IfElseNTSElse(
+            consume(Terminals.ELSE),
+            cpsCmd());
+        }else{
+            return new IfElseNTSEpsilon();
         }
     }
 
-    private void expr() throws GrammerException {
-        if(currentTerminal == Terminals.LEFTRBRACKET || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOT || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL){
-            term0();
-        }
+    private IExpr expr() throws GrammerException {
+        return new Expr(term0());
     }
 
     //region terms for everything
-    public void term0() throws  GrammerException {
-        term1();
-        term0NTS();
+    public ITerm0 term0() throws  GrammerException {
+        return new Term0(
+        term1(),
+        term0NTS());
     }
 
     public void term0NTS() throws  GrammerException {
@@ -241,11 +264,10 @@ public class Parser {
         }
     }
 
-    public void term1() throws  GrammerException {
-        if(currentTerminal == Terminals.LEFTRBRACKET || currentTerminal == Terminals.ADDOPR || currentTerminal == Terminals.NOT || currentTerminal == Terminals.IDENT || currentTerminal == Terminals.LITERAL) {
-        }
-        term2();
-        term1NTS();
+    public ITerm1 term1() throws  GrammerException {
+        return new Term1(
+        term2(),
+        term1NTS());
     }
 
     public void term1NTS() throws  GrammerException {
@@ -255,9 +277,10 @@ public class Parser {
         }
     }
 
-    public void term2() throws  GrammerException {
-        term3();
-        term2NTS();
+    public ITerm2 term2() throws  GrammerException {
+        return new Term2(
+        term3(),
+        term2NTS());
     }
 
     public void term2NTS() throws  GrammerException {
@@ -268,9 +291,10 @@ public class Parser {
         }
     }
 
-    public void term3() throws  GrammerException {
-        term4();
-        term3NTS();
+    public ITerm3 term3() throws  GrammerException {
+        return new Term3(
+        term4(),
+        term3NTS());
     }
 
     public void term3NTS() throws  GrammerException {
@@ -281,9 +305,10 @@ public class Parser {
         }
     }
 
-    public void term4() throws  GrammerException {
-        term5();
-        term4NTS();
+    public ITerm4 term4() throws  GrammerException {
+        return new Term4(
+        term5(),
+        term4NTS());
     }
 
     public void term4NTS() throws  GrammerException {
@@ -294,9 +319,10 @@ public class Parser {
         }
     }
 
-    public void term5() throws  GrammerException {
-        term6();
-        term5NTS();
+    public ITerm5 term5() throws  GrammerException {
+        return new Term5(
+        term6(),
+        term5NTS());
     }
 
     public void term5NTS() throws  GrammerException {
@@ -307,9 +333,10 @@ public class Parser {
         }
     }
 
-    public void term6() throws  GrammerException {
-        term7();
-        term6NTS();
+    public ITerm6 term6() throws  GrammerException {
+        return new Term6(
+        term7(),
+        term6NTS());
     }
 
     public void term6NTS() throws  GrammerException {
@@ -319,9 +346,10 @@ public class Parser {
         }
     }
 
-    public void term7() throws  GrammerException {
-        term8();
-        term7NTS();
+    public ITerm7 term7() throws  GrammerException {
+        return new Term7(
+        term8(),
+        term7NTS());
     }
 
     public void term7NTS() throws  GrammerException {
@@ -331,9 +359,10 @@ public class Parser {
         }
     }
 
-    public void term8() throws  GrammerException {
-        term9();
-        term8NTS();
+    public ITerm8 term8() throws  GrammerException {
+        return new Term8(
+        term9(),
+        term8NTS());
     }
 
     public void term8NTS() throws  GrammerException {
@@ -344,9 +373,10 @@ public class Parser {
         }
     }
 
-    public void term9() throws  GrammerException {
-        factor();
-        term9NTS();
+    public ITerm9 term9() throws  GrammerException {
+        return new Term9(
+        factor(),
+        term9NTS());
     }
 
     public void term9NTS() throws  GrammerException {
