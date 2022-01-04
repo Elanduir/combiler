@@ -1,14 +1,40 @@
-program Add17Fun
+program Factorial
 global
-  fun f(x:int) returns y:int
+  fun fact32(n:int) returns var fact:int
+  local
+    var i:int
   do
-    y init := x + 17
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
   endfun;
 
-  var x:int
-  var z:short
+  fun fact64(n:int) returns var fact:long
+  local
+    var i:int
+  do
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
+  endfun;
+
+  fun fact1024(n:int) returns var fact:long
+  local
+    var i:int
+  do
+    fact init := 1;
+    i    init := 2;
+    while i <= n do
+      fact := fact * i;
+      i    := i + 1
+    endwhile
+  endfun
 do
-  debugin x init;
-  debugout f(x)
-  x := castStoL : y
+  f init := fact1024(n)
 endprogram

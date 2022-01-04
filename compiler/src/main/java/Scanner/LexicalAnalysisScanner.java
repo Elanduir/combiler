@@ -9,7 +9,7 @@ import java.util.List;
 
 public class LexicalAnalysisScanner {
 
-    private final List<String> tokenDelimiter = List.of(" ", "\n", "!", "*", "/", "%", "+", "-", ":", "!", "<", ">", "=", ";", "(", ")");
+    private final List<String> tokenDelimiter = List.of(" ", "\n", "!", "*", "/", "%", "+", "-", ":", "!", "<", ">", "=", ";", "(", ")", ",");
 
     public List<Base> analyze(Path filePath) throws LexicalAnalysisException {
         String[] characters = readFile(filePath);
@@ -51,6 +51,7 @@ public class LexicalAnalysisScanner {
             if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
             if(currentChar.matches(Terminals.RIGHTRBRACKET.pattern) && nextChar.matches(Terminals.RIGHTRBRACKET.pattern)) newToken = true;
             if(currentChar.matches(Terminals.LEFTRBRACKET.pattern) && nextChar.matches(Terminals.LEFTRBRACKET.pattern)) newToken = true;
+            if(currentChar.matches(Terminals.RIGHTRBRACKET.pattern) && nextChar.matches(Terminals.SEMICOLON.pattern)) newToken = true;
 
             newToken = nextIndex == i || newToken;
 
@@ -77,11 +78,12 @@ public class LexicalAnalysisScanner {
                     //if(toMatch.matches(Operators.COR.pattern)) tokenList.add(new Relopr(Operators.COR));
 
                     //AddOpr
-                    if(toMatch.matches(Operators.TIMES.pattern)) tokenList.add(new AddOpr(Operators.TIMES));
+                    if(toMatch.matches(Operators.TIMES.pattern)) tokenList.add(new MultOpr(Operators.TIMES));
                     if(toMatch.matches(Operators.DIV.pattern)) tokenList.add(new AddOpr(Operators.DIV));
                     if(toMatch.matches(Operators.MOD.pattern)) tokenList.add(new AddOpr(Operators.MOD));
                     if(toMatch.matches(Operators.PLUS.pattern)) tokenList.add(new AddOpr(Operators.PLUS));
                     if(toMatch.matches(Operators.MINUS.pattern)) tokenList.add(new AddOpr(Operators.MINUS));
+                    if(toMatch.matches(Terminals.BOOLOPR.pattern)) tokenList.add(new BoolOpr(toMatch));
 
                     //Terminals
                     if(toMatch.matches(Terminals.WHILE.pattern)) tokenList.add(new Base(Terminals.WHILE));
@@ -97,8 +99,24 @@ public class LexicalAnalysisScanner {
                     if(toMatch.matches(Terminals.GLOBAL.pattern)) tokenList.add(new Base(Terminals.GLOBAL));
                     if(toMatch.matches(Terminals.FUNCTION.pattern)) tokenList.add(new Base(Terminals.FUNCTION));
                     if(toMatch.matches(Terminals.PROCEDUR.pattern)) tokenList.add(new Base(Terminals.PROCEDUR));
+                    if(toMatch.matches(Terminals.ENDPROCEDUR.pattern)) tokenList.add(new Base(Terminals.ENDPROCEDUR));
                     if(toMatch.matches(Terminals.DEBUGIN.pattern)) tokenList.add(new Base(Terminals.DEBUGIN));
                     if(toMatch.matches(Terminals.DEBUGOUT.pattern)) tokenList.add(new Base(Terminals.DEBUGOUT));
+
+                    if(toMatch.matches(Terminals.RETURNS.pattern)) tokenList.add(new Base(Terminals.RETURNS));
+                    if(toMatch.matches(Terminals.ENDFUN.pattern)) tokenList.add(new Base(Terminals.ENDFUN));
+                    if(toMatch.matches(Terminals.LOCAL.pattern)) tokenList.add(new Base(Terminals.LOCAL));
+                    if(toMatch.matches(Terminals.COMMA.pattern)) tokenList.add(new Base(Terminals.COMMA));
+
+                    if(toMatch.matches(Terminals.IF.pattern)) tokenList.add(new Base(Terminals.IF));
+                    if(toMatch.matches(Terminals.THEN.pattern)) tokenList.add(new Base(Terminals.THEN));
+                    if(toMatch.matches(Terminals.ELSE.pattern)) tokenList.add(new Base(Terminals.ELSE));
+                    if(toMatch.matches(Terminals.ENDIF.pattern)) tokenList.add(new Base(Terminals.ENDIF));
+
+                    if(toMatch.matches(Terminals.CALL.pattern)) tokenList.add(new Base(Terminals.CALL));
+                    if(toMatch.matches(Terminals.NOT.pattern)) tokenList.add(new Base(Terminals.NOT));
+                    if(toMatch.matches(Terminals.SKIP.pattern)) tokenList.add(new Base(Terminals.SKIP));
+                    if(toMatch.matches(Terminals.INIT.pattern)) tokenList.add(new Base(Terminals.INIT));
 
                     if(toMatch.matches(Terminals.CASTSTOI.pattern)) tokenList.add(new Base(Terminals.CASTSTOI));
                     if(toMatch.matches(Terminals.CASTSTOL.pattern)) tokenList.add(new Base(Terminals.CASTSTOL));

@@ -8,6 +8,7 @@ public enum Terminals {
     GLOBAL("(global)"),
     FUNCTION("(fun)"),
     PROCEDUR("proc"),
+    ENDPROCEDUR("endproc"),
     DEBUGIN("(debugin)"),
     DEBUGOUT("(debugout)"),
     WHILE("(while)"),
@@ -21,6 +22,8 @@ public enum Terminals {
     IDENT("([a-zA-Z0-9]+)"),
     RELOPR(""),
     ADDOPR(""),
+    MULTOPR(""),
+    BOOLOPR("bAnd|bOr"),
     LITERAL("[0-9]+"),
     SENTINEL(""),
     CASTSTOL("castStoL"),
@@ -32,7 +35,19 @@ public enum Terminals {
     TYPE("short|int|long"),
     FLOWMODE("in|out|inout"),
     CHANGEMODE("var|const"),
-    MECHMODE("copy|ref");
+    MECHMODE("copy|ref"),
+    RETURNS("returns"),
+    ENDFUN("endfun"),
+    LOCAL("local"),
+    COMMA(","),
+    IF("if"),
+    THEN("then"),
+    ELSE("else"),
+    ENDIF("endif"),
+    CALL("call"),
+    NOT("not"),
+    SKIP("skip"),
+    INIT("init");
 
     public final String pattern;
     Terminals(String pattern){
